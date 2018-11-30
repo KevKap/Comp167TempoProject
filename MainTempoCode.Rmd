@@ -12,11 +12,11 @@ library("spatialEco")
 
 Variable declaration
 ```{r}
-row_labelled_expression_data_path <- xxxx
-matrix_expression_data_path <- xxx
-age_data_path <- xxxx
-phenotype_data_path <- xxx
-gene_sets_path <- xxx
+row_labelled_expression_data_path <- '/Users/kevinkapner/Documents/Masters/Classes/Computational_Bio/Project/Code/Comp167TempoProject/Shortened_Data.xlsx'
+matrix_expression_data_path <- '/Users/kevinkapner/Documents/Masters/Classes/Computational_Bio/Project/Code/Comp167TempoProject/Unlabelled_Shortened_Data.xlsx'
+age_data_path <- '/Users/kevinkapner/Documents/Masters/Classes/Computational_Bio/Project/Code/Comp167TempoProject/patient_age.xlsx'
+phenotype_data_path <- '/Users/kevinkapner/Documents/Masters/Classes/Computational_Bio/Project/Code/Comp167TempoProject/Disease_status.xlsx'
+gene_sets_path <- '/Users/kevinkapner/Documents/Masters/Classes/Computational_Bio/Project/Code/Comp167TempoProject/GeneSets.gmt'
 ```
 
 Loading in data
@@ -25,21 +25,20 @@ row_Labelled_expression_data <- t(read_excel(row_labelled_expression_data_path))
 age_data <- t(read_excel(age_data_path))
 phenotype_data <- read_excel(phenotype_data_path)
 gene_sets <- loadGMT(gene_sets_path)
-final_data <- read_excel(matrix_expression_data_path)
+final_data <- read_excel(matrix_expression_data_path, sheet = 1, col_name = FALSE)
 ```
 
 Converting age to integer list
 ```{r}
 ages <- as.integer(unlist(age_data[2,]))
-testing_names <- age_data[1,]
-names(ages) <- testing_names
+sample_ids <- age_data[1,]
+names(ages) <- sample_ids
 ages <- list(ages)
 ```
 
-Extracting gene names and sample IDs from expression data
+Extracting gene names
 ```{r}
 gene_names <- row_Labelled_expression_data[1,]
-sample_ids <- xxx
 ```
 
 Correctly labelling final data
