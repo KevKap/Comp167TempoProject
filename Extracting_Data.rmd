@@ -1,0 +1,72 @@
+# Running Tempo on the Parkinson's dataset 
+
+Loading in libraries.
+
+```{r}
+library("tempoR")
+library("readxl")
+library("spatialEco")
+```
+```{r}
+no_named_data <- read.table(file = '/Users/kevinkapner/Documents/Masters/Classes/Computational_Bio/Project/Data/Median_Data_Shortened_NoNames.xlsx', header = FALSE, row.names = FALSE, sep=',')
+```
+Extracts the data from the xlsx file and creates a matrix of the data with sample IDs as columns and genes as rows.
+
+```{r}
+expression_data <- t(read_excel('/Users/kevinkapner/Documents/Masters/Classes/Computational_Bio/Project/Data/Median_Data_Shortened.xlsx'))
+gene_names <- expression_data[1,]
+sample_ids <- unlist(dimnames(expression_data)[1])
+sample_ids <- sample_ids[2:length(sample_ids)]
+data <- expression_data[2:nrow(expression_data),]
+names(data)
+```
+
+Extracts data from an excel file containing patient ages in the second column and indexed by patient ID in the first column. It is transposed to make the columns be sample ID.
+
+```{r}
+age_data <- t(read_excel('/Users/kevinkapner/Documents/Masters/Classes/Computational_Bio/Project/Data/patient_age.xlsx'))
+```
+
+Extracts data from excel file containing the patient classifications (parkinson's/control) indexed by sample ID. It then extracts the genes containing the control and parkinsons and creates the control set and Parkinsons set
+
+```{r}
+phenotype <- read_excel('/Users/kevinkapner/Documents/Masters/Classes/Computational_Bio/Project/Data/Disease_status.xlsx')
+disease_states <- as.logical(unlist(phenotype[,2]))
+opposite_disease_states <- !disease_states
+disease_states <- as.logical(insert.values(disease_states, FALSE, 1))
+opposite_disease_states <- as.logical(insert.values(opposite_disease_states, FALSE, 1))
+```
+
+Loading in gene sets
+
+```{r}
+gene_sets <- loadGMT('/Users/kevinkapner/Documents/Masters/Classes/Computational_Bio/Project/Data/GeneSets.gmt')
+```
+
+Combining information into list
+```{r}
+ParkinsonsSet = list()
+ParkinsonsSet$ctrl = names(expression_data[opposite_disease_states, 1])
+ParkinsonsSet$test = names(expression_data[disease_states, 1])
+testing_names <- age_data[1,]
+ages <- as.integer(unlist(age_data[2,]))
+names(ages) <- testing_names
+ages <- list(ages)
+ParkinsonsSet$age = ages
+```
+
+Running tempo
+
+```{r}
+results = tempo.run(ctrl=ParkinsonsSet$ctrl,
+                    test=ParkinsonsSet$test,
+                    genesets=gene_sets,
+                    X=expression_data,
+                    Y=ParkinsonsSet$age,
+                    numPerms=4,
+                    nCores=4,
+                    output="",
+                    pCutoff=1,
+                    fdrCutoff=2,
+                    pMseCutoff = 1)
+```
