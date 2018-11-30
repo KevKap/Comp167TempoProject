@@ -3,26 +3,77 @@ title: "TempoFinalProject"
 output: html_document
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+Import libraries
+```{r}
+library("tempoR")
+library("readxl")
+library("spatialEco")
 ```
 
-## R Markdown
-
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
-
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
-
-```{r cars}
-summary(cars)
+Variable declaration
+```{r}
+row_labelled_expression_data_path <- xxxx
+matrix_expression_data_path <- xxx
+age_data_path <- xxxx
+phenotype_data_path <- xxx
+gene_sets_path <- xxx
 ```
 
-## Including Plots
-
-You can also embed plots, for example:
-
-```{r pressure, echo=FALSE}
-plot(pressure)
+Loading in data
+```{r}
+row_Labelled_expression_data <- t(read_excel(row_labelled_expression_data_path))
+age_data <- t(read_excel(age_data_path))
+phenotype_data <- read_excel(phenotype_data_path)
+gene_sets <- loadGMT(gene_sets_path)
+final_data <- read_excel(matrix_expression_data_path)
 ```
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+Converting age to integer list
+```{r}
+ages <- as.integer(unlist(age_data[2,]))
+testing_names <- age_data[1,]
+names(ages) <- testing_names
+ages <- list(ages)
+```
+
+Extracting gene names and sample IDs from expression data
+```{r}
+gene_names <- row_Labelled_expression_data[1,]
+sample_ids <- xxx
+```
+
+Correctly labelling final data
+```{r}
+rownames(final_data) <- sample_ids
+colnames(final_data) <- gene_names
+```
+
+Grouping sample IDs by phenotype
+```{r}
+# 0 is for control and 1 is for parkinsons
+disease_states <- as.logical(unlist(phenotype_data[,2]))
+opposite_disease_states <- !disease_states
+```
+
+Combining data in information list
+```{r}
+Parkinsons = list()
+Parkinsons$ctrl <- names(row_labelled_expression_data[opposite_disease_states,1])
+Parkinsons$test <- names(row_labelled_expression_data[disease_states,1])
+Parkinsons$age <- ages
+```
+
+Running Tempo
+```{r}
+results = tempo.run(ctrl = Parkinsons$ctrl,
+                    test = Parkinsons$test,
+                    genesets = gene_sets,
+                    X = final_data,
+                    Y = Parkinsons$age,
+                    numPerms = 4,
+                    nCores = 4,
+                    output = "",
+                    pCutoff = 1,
+                    fdrCutoff = 2,
+                    pMseCutoff = 1)
+```
