@@ -12,8 +12,8 @@ library("spatialEco")
 
 Variable declaration
 ```{r}
-row_labelled_expression_data_path <- '/Users/kevinkapner/Documents/Masters/Classes/Computational_Bio/Project/Code/Comp167TempoProject/Shortened_Data.xlsx'
-matrix_expression_data_path <- '/Users/kevinkapner/Documents/Masters/Classes/Computational_Bio/Project/Code/Comp167TempoProject/Unlabelled_Shortened_Data.xlsx'
+row_labelled_expression_data_path <- '/Users/kevinkapner/Documents/Masters/Classes/Computational_Bio/Project/Code/Comp167TempoProject/Median_Data.xlsx'
+matrix_expression_data_path <- '/Users/kevinkapner/Documents/Masters/Classes/Computational_Bio/Project/Code/Comp167TempoProject/Unlabelled_Median_Data.xlsx'
 age_data_path <- '/Users/kevinkapner/Documents/Masters/Classes/Computational_Bio/Project/Code/Comp167TempoProject/patient_age.xlsx'
 phenotype_data_path <- '/Users/kevinkapner/Documents/Masters/Classes/Computational_Bio/Project/Code/Comp167TempoProject/Disease_status.xlsx'
 gene_sets_path <- '/Users/kevinkapner/Documents/Masters/Classes/Computational_Bio/Project/Code/Comp167TempoProject/GeneSets.gmt'
@@ -25,7 +25,7 @@ row_Labelled_expression_data <- t(read_excel(row_labelled_expression_data_path))
 age_data <- t(read_excel(age_data_path))
 phenotype_data <- read_excel(phenotype_data_path)
 gene_sets <- loadGMT(gene_sets_path)
-final_data <- read_excel(matrix_expression_data_path, sheet = 1, col_name = FALSE)
+final_data <- t(read_excel(matrix_expression_data_path, sheet = 1, col_name = FALSE))
 ```
 
 Converting age to integer list
@@ -57,9 +57,9 @@ opposite_disease_states <- !disease_states
 Combining data in information list
 ```{r}
 Parkinsons = list()
-Parkinsons$ctrl <- names(row_labelled_expression_data[opposite_disease_states,1])
-Parkinsons$test <- names(row_labelled_expression_data[disease_states,1])
-Parkinsons$age <- ages
+Parkinsons$ctrl <- sample_ids[opposite_disease_states]
+Parkinsons$test <- sample_ids[disease_states]
+Parkinsons$age <- unlist(ages)
 ```
 
 Running Tempo
@@ -71,7 +71,7 @@ results = tempo.run(ctrl = Parkinsons$ctrl,
                     Y = Parkinsons$age,
                     numPerms = 4,
                     nCores = 4,
-                    output = "",
+                    output = "/Users/kevinkapner/Documents/Masters/Classes/Computational_Bio/Project/Code/Comp167TempoProject/AgeAdjustedResults",
                     pCutoff = 1,
                     fdrCutoff = 2,
                     pMseCutoff = 1)
