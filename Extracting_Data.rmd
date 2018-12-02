@@ -52,7 +52,7 @@ testing_names <- age_data[1,]
 ages <- as.integer(unlist(age_data[2,]))
 names(ages) <- testing_names
 ages <- list(ages)
-ParkinsonsSet$age = ages
+ParkinsonsSet$age = unlist(ages)
 ```
 
 Running tempo

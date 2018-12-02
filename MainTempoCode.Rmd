@@ -12,10 +12,10 @@ library("spatialEco")
 
 Variable declaration
 ```{r}
-row_labelled_expression_data_path <- '/Users/kevinkapner/Documents/Masters/Classes/Computational_Bio/Project/Code/Comp167TempoProject/Median_Data.xlsx'
-matrix_expression_data_path <- '/Users/kevinkapner/Documents/Masters/Classes/Computational_Bio/Project/Code/Comp167TempoProject/Unlabelled_Median_Data.xlsx'
-age_data_path <- '/Users/kevinkapner/Documents/Masters/Classes/Computational_Bio/Project/Code/Comp167TempoProject/patient_age.xlsx'
-phenotype_data_path <- '/Users/kevinkapner/Documents/Masters/Classes/Computational_Bio/Project/Code/Comp167TempoProject/Disease_status.xlsx'
+row_labelled_expression_data_path <- '/Users/kevinkapner/Documents/Masters/Classes/Computational_Bio/Project/Code/Comp167TempoProject/Median_Data_AgeAdjusted.xlsx'
+matrix_expression_data_path <- '/Users/kevinkapner/Documents/Masters/Classes/Computational_Bio/Project/Code/Comp167TempoProject/Unlabelled_Median_Data_AgeAdjusted.xlsx'
+age_data_path <- '/Users/kevinkapner/Documents/Masters/Classes/Computational_Bio/Project/Code/Comp167TempoProject/patient_age_AgeAdjusted.xlsx'
+phenotype_data_path <- '/Users/kevinkapner/Documents/Masters/Classes/Computational_Bio/Project/Code/Comp167TempoProject/Disease_status_AgeAdjusted.xlsx'
 gene_sets_path <- '/Users/kevinkapner/Documents/Masters/Classes/Computational_Bio/Project/Code/Comp167TempoProject/GeneSets.gmt'
 ```
 
