@@ -12,11 +12,11 @@ library("spatialEco")
 
 Variable declaration
 ```{r}
-row_labelled_expression_data_path <- '/Users/kevinkapner/Documents/Masters/Classes/Computational_Bio/Project/Code/Comp167TempoProject/Median_Data_AgeAdjusted.xlsx'
-matrix_expression_data_path <- '/Users/kevinkapner/Documents/Masters/Classes/Computational_Bio/Project/Code/Comp167TempoProject/Unlabelled_Median_Data_AgeAdjusted.xlsx'
-age_data_path <- '/Users/kevinkapner/Documents/Masters/Classes/Computational_Bio/Project/Code/Comp167TempoProject/patient_age_AgeAdjusted.xlsx'
-phenotype_data_path <- '/Users/kevinkapner/Documents/Masters/Classes/Computational_Bio/Project/Code/Comp167TempoProject/Disease_status_AgeAdjusted.xlsx'
-gene_sets_path <- '/Users/kevinkapner/Documents/Masters/Classes/Computational_Bio/Project/Code/Comp167TempoProject/GeneSets.gmt'
+row_labelled_expression_data_path <- '/h/kkapne01/CS167/Project/Median_Data_AgeAdjusted.xlsx'
+matrix_expression_data_path <- '/h/kkapne01/CS167/Project/Unlabelled_Median_Data_AgeAdjusted.xlsx'
+age_data_path <- '/h/kkapne01/CS167/Project/patient_age_AgeAdjusted.xlsx'
+phenotype_data_path <- '/h/kkapne01/CS167/Project/Disease_status_AgeAdjusted.xlsx'
+gene_sets_path <- '/h/kkapne01/CS167/Project/GeneSets.gmt'
 ```
 
 Loading in data
@@ -69,9 +69,9 @@ results = tempo.run(ctrl = Parkinsons$ctrl,
                     genesets = gene_sets,
                     X = final_data,
                     Y = Parkinsons$age,
-                    numPerms = 4,
-                    nCores = 4,
-                    output = "/Users/kevinkapner/Documents/Masters/Classes/Computational_Bio/Project/Code/Comp167TempoProject/AgeAdjustedResults",
+                    numPerms = 500,
+                    nCores = 24,
+                    output = "/h/kkapne01/CS167/Project/AgeAdjustedResults",
                     pCutoff = 1,
                     fdrCutoff = 2,
                     pMseCutoff = 1)
