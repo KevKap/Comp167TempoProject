@@ -11,6 +11,7 @@ Follow instructions found at http://bcb.cs.tufts.edu/tempo/ to install the TEMPO
 * age_data_path
 * phenotype_data_path
 * gene_sets_path
+* output path for PDF in tempo.run
 
 The script to generate the expression data files from the original dataset can be found in the Data_Processing folder in the ExpressionDataProcessing.py . The age data and phenotype data were extracted by hand from the original data file using excel and were formatted as described by http://bcb.cs.tufts.edu/tempo/. 
 
